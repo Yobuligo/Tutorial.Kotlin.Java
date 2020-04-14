@@ -1,3 +1,4 @@
+import java.lang.IllegalArgumentException
 import java.util.Random
 
 fun main() {
@@ -181,7 +182,7 @@ fun main() {
     val listSum = numList2.reduce { x, y -> x + y }
     println("Reduce Sum: $listSum")
 
-    val listSum2 = numList2.fold(5) { x, y -> x + y }
+    val listSum2 = numList2.fold(5) { x, y -> x + y } //starts with 5 and adds all other values to the list
     println("Fold Sum: $listSum2")
 
     println("Evens: ${numList2.any { it % 2 == 0 }}") //returns if any entries returns mod 2 as true (that is true)
@@ -192,6 +193,58 @@ fun main() {
 
     val times7 = numList2.map { it * 7 }
     times7.forEach { n -> println("*7 : $n") }
+
+    val multiply3 = { num1: Int -> num1 * 2 }
+    val numList3 = arrayOf(1, 2, 3, 4, 5)
+    mathOnList(numList3, multiply3)
+
+    val listSum3 = numList2.reduce { x, y -> x + y }
+    println("Reduce Sum : $listSum3")
+
+    val listSum4 = numList2.fold(5) { x, y -> x + y }
+    println("Fold Sum : $listSum4")
+
+    val divisor = 2
+    try {
+        if (divisor == 0) {
+            throw IllegalArgumentException("Can't divide my zero")
+        } else {
+            println("5 / $divisor = ${5 / divisor}")
+        }
+    } catch (e: IllegalArgumentException) {
+        println("${e.message}")
+    }
+
+    //working with lists
+    val list1: MutableList<Int> = mutableListOf(1, 2, 3, 4, 5)
+
+    list1.add(6)
+    println("1st: ${list1.first()}")
+    println("last: ${list1.last()}")
+
+    println("2nd: ${list1[2]}")
+
+    var list3 = list1.subList(0, 3)
+    println("Length : ${list1.size}")
+    list3.clear()
+    list1.remove(1);
+    list1.removeAt(1)
+    list1.forEach { n -> println("Mutable List : $n") }
+
+    //Maps
+    val map = mutableMapOf<Int, Any?>()
+    val map2 = mutableMapOf(1 to "Doug", 2 to 25)
+    map[1] = "Derek"
+    map[2] = 42
+    println("Map Size : ${map.size}")
+
+    map.put(3, "Pittsburgh")
+
+    map.remove(2)
+
+    for ((x, y) in map) {
+        println("Key : $x Value: $y")
+    }
 }
 
 fun nextTwo(num: Int): Pair<Int, Int> {
@@ -215,3 +268,10 @@ fun fact(x: Int): Int {
 
 //Functions with functions
 fun makeMathFunc(num1: Int): (Int) -> Int = { num2 -> num1 * num2 }
+
+//Function to use a function on the list
+fun mathOnList(numList: Array<Int>, myFunc: (num: Int) -> Int) {
+    for (num in numList) {
+        println("MathOnList ${myFunc(num)}")
+    }
+}
